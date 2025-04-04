@@ -12,7 +12,7 @@ const CartModal = () => {
 
   const wixClient = useWixClient();
   const { cart, isLoading, removeItem } = useCartStore();
-
+  console.log("cart: ", cart);
   const handleCheckout = async () => {
     try {
       const checkout =
@@ -21,7 +21,7 @@ const CartModal = () => {
         });
 
       const { redirectSession } =
-        await wixClient?.redirects.createRedirectSession({
+        await wixClient.redirects.createRedirectSession({
           ecomCheckout: { checkoutId: checkout.checkoutId },
           callbacks: {
             postFlowUrl: window.location.origin,
@@ -104,7 +104,9 @@ const CartModal = () => {
           <div className="">
             <div className="flex items-center justify-between font-semibold">
               <span className="">Subtotal</span>
-              <span className="">${cart.subtotal.amount}</span>
+              <span className="">
+                ${(cart as { subtotal: { amount: number } }).subtotal.amount}
+              </span>
             </div>
             <p className="text-gray-500 text-sm mt-2 mb-4">
               Shipping and taxes calculated at checkout.
